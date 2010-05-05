@@ -9,7 +9,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100329042139) do
+ActiveRecord::Schema.define(:version => 20100505073247) do
+
+  create_table "parts", :force => true do |t|
+    t.string  "identifier",           :null => false
+    t.text    "name",                 :null => false
+    t.integer "first_appeared_at_id", :null => false
+  end
 
   create_table "revisions", :force => true do |t|
     t.string   "identifier",   :null => false

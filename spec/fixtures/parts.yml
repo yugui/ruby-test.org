@@ -1,0 +1,14 @@
+a_part:
+  identifier: "tag:ruby-test.org,2010:part/000000000000000000000000000000000000000"
+  name: test_method_a
+  first_appeared_at: first
+
+a_part_after_modified:
+  identifier: "tag:ruby-test.org,2010:part/000000000000000000000000000000000000001"
+  name: test_method_b
+  first_appeared_at: third
+
+another_part:
+  identifier: "tag:ruby-test.org,2010:part/100000000000000000000000000000000000000"
+  name: it should be blahblahblah
+  first_appeared_at: first
