@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+a_part_bundled_in_a_test_case:
+  of: a_part
+  in: a_test_case
+
+another_part_bundled_in_a_spec:
+  of: another_part
+  in: a_spec
+
+yet_another_part_bundled_in_another_test_case:
+  of: yet_another_part
+  in: another_test_case

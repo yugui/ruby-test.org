@@ -1,0 +1,16 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+a_test_case:
+  signature: "tag:ruby-test.org,2010:bundle/test/ATestCase"
+  name: ATestCase
+  revision: first
+
+another_test_case:
+  signature: "tag:ruby-test.org,2010:bundle/test/AnotherTestCase"
+  name: AnotherTestCase
+  revision: third
+
+a_spec:
+  signature: "tag:ruby-test.org,2010:bundle/spec/1"
+  name: describe A
+  revision: first

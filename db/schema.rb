@@ -9,7 +9,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100505073247) do
+ActiveRecord::Schema.define(:version => 20100505081303) do
+
+  create_table "bundles", :force => true do |t|
+    t.string  "signature",   :null => false
+    t.text    "name",        :null => false
+    t.integer "revision_id", :null => false
+  end
+
+  create_table "bundlings", :force => true do |t|
+    t.integer "of_id", :null => false
+    t.integer "in_id", :null => false
+  end
 
   create_table "parts", :force => true do |t|
     t.string  "identifier",           :null => false
