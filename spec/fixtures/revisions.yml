@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+first:
+  identifier: 1
+  committed_at: 2010-01-01 00:00:00
+
+second:
+  identifier: 2
+  committed_at: 2010-01-02 00:00:00
+
+third:
+  identifier: 3
+  committed_at: 2010-01-03 00:00:00
+
+fourth:
+  identifier: 4
+  committed_at: 2010-01-04 00:00:00
+
+fifth:
+  identifier: 5
+  committed_at: 2010-01-05 00:00:00
