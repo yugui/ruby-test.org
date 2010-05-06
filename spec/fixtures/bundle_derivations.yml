@@ -1,0 +1,5 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+derivation_of_a_test_case:
+  from: a_test_case
+  to: a_test_case_after_modified

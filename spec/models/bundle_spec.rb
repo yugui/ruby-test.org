@@ -86,7 +86,7 @@ describe Bundle, '::find_or_create_by_attrs_and_parts' do
     end
   end
 
-  describe "when the signature is unknown" do
+  describe "when the signature is unknown and any part is unknown" do
     it_should_behave_like 'the case that a new bundle is created'
 
     before do
@@ -107,12 +107,17 @@ describe Bundle, '::find_or_create_by_attrs_and_parts' do
       part.name.should == @part_desc[:name]
       part.first_appeared_at.should == bundle.revision
     end
+
+    it "should return a bundle without origin" do
+      bundle = @finding.call
+      bundle.origins.should be_empty
+    end
   end
 
   describe "when the signature is known but there is no matching bundle and is a known part" do
     it_should_behave_like 'the case that a new bundle is created'
 
-    it "should return a bundle with a part and the part was newly created" do
+    it "should return a bundle with the matching part" do
       bundle = nil
       lambda {
         bundle = @finding.call
@@ -120,7 +125,20 @@ describe Bundle, '::find_or_create_by_attrs_and_parts' do
 
       bundle.parts.count == 1
       bundle.parts.first.should == parts(:a_part)
-      bundle.parts.first.first_appeared_at.should == revisions(:first)
+    end
+
+    it "modifies first_appeared_at of the part" do
+      part = parts(:a_part)
+      bundle = @finding.call
+
+      part.reload.first_appeared_at.should == revisions(:first)
+    end
+
+    it "derives the returned bundle from the previous bundle" do
+      expected_previous_bundle = bundles(:a_test_case_after_modified)
+
+      bundle = @finding.call
+      bundle.origins.should include(expected_previous_bundle)
     end
   end
 
@@ -133,7 +151,7 @@ describe Bundle, '::find_or_create_by_attrs_and_parts' do
       @revision = revisions(:first)
     end
 
-    it "should return a bundle with a part and the part was newly created" do
+    it "should return a bundle with a part and the part was not newly created" do
       bundle = nil
       lambda {
         bundle = @finding.call
@@ -141,7 +159,49 @@ describe Bundle, '::find_or_create_by_attrs_and_parts' do
 
       bundle.parts.count == 1
       bundle.parts.first.should == parts(:a_part)
-      bundle.parts.first.first_appeared_at.should == revisions(:first)
+    end
+    it "modfies first_appeared_at of the part" do
+      part = parts(:a_part)
+
+      bundle = @finding.call
+      part.reload
+      part.first_appeared_at.should == revisions(:first)
+    end
+    it "returns a bundle with a derivative" do
+      expected_next_bundle = bundles(:another_test_case)
+
+      bundle = @finding.call
+      bundle.derivatives.should include(expected_next_bundle)
+    end
+  end
+
+  describe "when there are both prev and next bundle for the signature but not exactly maching one" do
+    fixtures :bundle_derivations
+    it_should_behave_like 'the case that a new bundle is created'
+    before do
+      @signature = "tag:ruby-test.org,2010:bundle/test/ATestCase"
+      @name = "ATestCase"
+      @revision = revisions(:second)
+    end
+
+    it "does not modifies first_appeared_at of the part" do
+      part = parts(:a_part)
+      expected_revision = part.first_appeared_at
+
+      bundle = @finding.call
+      part.reload
+      part.first_appeared_at.should == expected_revision
+    end
+
+    it "inserts the bundle between the prev/next bundles in their derivation chain" do
+      prev_bundle = bundles(:a_test_case)
+      next_bundle = bundles(:a_test_case_after_modified)
+      prev_bundle.derivatives.should == [next_bundle]
+
+      bundle = @finding.call
+      prev_bundle.reload; next_bundle.reload
+      prev_bundle.derivatives.should == [bundle]
+      next_bundle.origins.should == [bundle]
     end
   end
 end

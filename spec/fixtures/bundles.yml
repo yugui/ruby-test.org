@@ -5,6 +5,11 @@ a_test_case:
   name: ATestCase
   revision: first
 
+a_test_case_after_modified:
+  signature: "tag:ruby-test.org,2010:bundle/test/ATestCase"
+  name: ATestCase
+  revision: third
+
 another_test_case:
   signature: "tag:ruby-test.org,2010:bundle/test/AnotherTestCase"
   name: AnotherTestCase

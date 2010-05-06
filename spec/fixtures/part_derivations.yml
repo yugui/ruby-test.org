@@ -1,0 +1,5 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+a_part_derives_a_part_after_modified:
+  from: a_part
+  to: a_part_after_modified

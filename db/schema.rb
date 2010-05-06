@@ -9,7 +9,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100505081303) do
+ActiveRecord::Schema.define(:version => 20100506031644) do
+
+  create_table "bundle_derivations", :force => true do |t|
+    t.integer "from_id", :null => false
+    t.integer "to_id",   :null => false
+  end
 
   create_table "bundles", :force => true do |t|
     t.string  "signature",   :null => false
@@ -20,6 +25,11 @@ ActiveRecord::Schema.define(:version => 20100505081303) do
   create_table "bundlings", :force => true do |t|
     t.integer "of_id", :null => false
     t.integer "in_id", :null => false
+  end
+
+  create_table "part_derivations", :force => true do |t|
+    t.integer "from_id", :null => false
+    t.integer "to_id",   :null => false
   end
 
   create_table "parts", :force => true do |t|
