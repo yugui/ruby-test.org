@@ -20,6 +20,14 @@ class Bundle < ActiveRecord::Base
     if bundle
       raise ArgumentError, "expected name #{bundle.name.dump} but got #{name.dump}. wrong signature?" if bundle.name != name
 
+      known_idents = bundle.parts.map(&:identifier)
+      parts.each do |attrs|
+        next if known_idents.include?(attrs[:identifier])
+        part = Part.find_or_create_by_attrs(signature, attrs[:identifier], attrs[:name], revision)
+        bundle.bundlings.create of: part
+      end
+      bundle.parts.reload
+
       return bundle
     else
       bundle = Bundle.create signature: signature, name: name, revision: revision

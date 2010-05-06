@@ -54,17 +54,17 @@ describe Bundle, '::find_or_create_by_attrs_and_parts' do
 
   describe 'the case that a new bundle is created', :shared => true do
     before do
-      @part_desc = {
-        identifier: parts(:a_part).identifier,
-        name: parts(:a_part).name,
-      }
+      @part_descs = [
+        { identifier: parts(:a_part).identifier, name: parts(:a_part).name },
+        { identifier: parts(:even_another_part).identifier, name: parts(:even_another_part).name },
+      ]
     end
     before do
       @signature = "tag:ruby-test.org,2010:bundle/test/ATestCase"
       @name = "ATestCase"
       @revision = revisions(:fourth)
       @finding = lambda do
-        Bundle.find_or_create_by_attrs_and_parts(@signature, @name, @revision, [@part_desc])
+        Bundle.find_or_create_by_attrs_and_parts(@signature, @name, @revision, @part_descs)
       end
     end
 
@@ -92,7 +92,7 @@ describe Bundle, '::find_or_create_by_attrs_and_parts' do
     before do
       @signature = "tag:ruby-test.org,2010:bundle/test/SomeUnknownTestCase"
       @name = "SomeUnknownTestCase"
-      @part_desc[:identifier] = "tag:ruby-test.org,2010:part/SomeUnknownTestCase#a_part"
+      @part_descs.first[:identifier] = "tag:ruby-test.org,2010:part/SomeUnknownTestCase#a_part"
     end
 
     it "should return a bundle with a part and the part was newly created" do
@@ -101,11 +101,12 @@ describe Bundle, '::find_or_create_by_attrs_and_parts' do
         bundle = @finding.call
       }.should change(Part, :count).by(1)
 
-      bundle.parts.count == 1
-      part = bundle.parts.first
-      part.identifier.should == @part_desc[:identifier]
-      part.name.should == @part_desc[:name]
-      part.first_appeared_at.should == bundle.revision
+      bundle.parts.count == 2
+      @part_descs.each do |desc|
+        part = bundle.parts.find_by_identifier(desc[:identifier])
+        part.should_not be_nil
+        part.name.should == desc[:name]
+      end
     end
 
     it "should return a bundle without origin" do
@@ -202,6 +203,37 @@ describe Bundle, '::find_or_create_by_attrs_and_parts' do
       prev_bundle.reload; next_bundle.reload
       prev_bundle.derivatives.should == [bundle]
       next_bundle.origins.should == [bundle]
+    end
+  end
+
+  describe "when the bundle exists but the passed set of parts contains a unknown part" do
+    before do
+      @more_identifier = "tag:ruby-test.org,2010:part/ffffffffffffffffffffffffffffffffffffffff"
+      @more_name = "test_some_method"
+      @part_descs = [
+        { identifier: parts(:a_part).identifier, name: parts(:a_part).name },
+        { identifier: @more_identifier, name: @more_name },
+      ]
+    end
+
+    it "returns a bundle with the merged set of parts" do
+      expected_bundle = bundles(:a_test_case)
+
+      bundle = nil
+      lambda {
+        bundle = Bundle.find_or_create_by_attrs_and_parts \
+          expected_bundle.signature, expected_bundle.name,
+          revisions(:first), @part_descs
+      }.should change(Part, :count).by(1)
+
+      bundle.parts.should have(3).items
+      bundle.parts.should include(parts(:a_part))
+      bundle.parts.should include(parts(:even_another_part))
+
+      new_part = (bundle.parts - [parts(:a_part), parts(:even_another_part)]).first
+      new_part.identifier.should == @more_identifier
+      new_part.name.should == @more_name
+      new_part.first_appeared_at.should == bundle.revision
     end
   end
 end

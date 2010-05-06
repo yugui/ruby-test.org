@@ -4,6 +4,10 @@ a_part_bundled_in_a_test_case:
   of: a_part
   in: a_test_case
 
+even_another_part_bundled_in_a_test_case:
+  of: even_another_part
+  in: a_test_case
+
 a_part_after_modified_bundled_in_a_test_case_after_modified:
   of: a_part_after_modified
   in: a_test_case_after_modified

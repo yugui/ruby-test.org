@@ -17,3 +17,8 @@ yet_another_part:
   identifier: "tag:ruby-test.org,2010:part/200000000000000000000000000000000000000"
   name: test_method_c
   first_appeared_at: third
+
+even_another_part:
+  identifier: "tag:ruby-test.org,2010:part/000000000000000000000000000000000000002"
+  name: test_method_d
+  first_appeared_at: first
