@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+a_part_on_first_on_a_mswin32:
+  report: first_on_a_mswin32
+  part: a_part
+  succeeded: true
+  description: F
+  detail: expected true but got false
+  position: 1
+
+another_part_on_first_on_mswin32:
+  report: first_on_a_mswin32
+  part: another_part
+  succeeded: true
+  description: .
+  detail: it should be blahblahblah
+  position: 2

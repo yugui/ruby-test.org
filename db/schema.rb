@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100509111943) do
+ActiveRecord::Schema.define(:version => 20100509113116) do
 
   create_table "bundle_derivations", :force => true do |t|
     t.integer "from_id", :null => false
@@ -47,6 +47,17 @@ ActiveRecord::Schema.define(:version => 20100509111943) do
   create_table "reports", :force => true do |t|
     t.integer  "site_id",     :null => false
     t.integer  "revision_id", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "results", :force => true do |t|
+    t.integer  "report_id",   :null => false
+    t.integer  "part_id",     :null => false
+    t.boolean  "succeeded",   :null => false
+    t.string   "description", :null => false
+    t.text     "detail"
+    t.integer  "position",    :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
