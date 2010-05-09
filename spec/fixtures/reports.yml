@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+first_on_a_mswin32:
+  site: a_mswin32
+  revision: first
+
+third_on_a_sparc_solaris:
+  site: a_sparc_solaris
+  revision: third
