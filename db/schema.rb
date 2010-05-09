@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100509090214) do
+ActiveRecord::Schema.define(:version => 20100509094422) do
 
   create_table "bundle_derivations", :force => true do |t|
     t.integer "from_id", :null => false
@@ -47,6 +47,13 @@ ActiveRecord::Schema.define(:version => 20100509090214) do
   create_table "revisions", :force => true do |t|
     t.string   "identifier",   :null => false
     t.datetime "committed_at", :null => false
+  end
+
+  create_table "sites", :force => true do |t|
+    t.integer  "platform_id", :null => false
+    t.integer  "owner_id",    :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|

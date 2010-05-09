@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+a_mswin32:
+  platform: mswin32
+  owner_id: <%= User.make.id %>
+
+a_sparc_solaris:
+  platform: "sparc-solaris"
+  owner_id: <%= User.make.id %>
