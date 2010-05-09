@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+"sparc-solaris":
+  arch: sparc
+  os: solaris2.10
+  misc: ~
+
+mswin32:
+  arch: i386
+  os: mswin32
+  misc: ~
